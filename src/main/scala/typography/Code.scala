@@ -23,6 +23,11 @@ implicit class ScalaHelper(private val sc: StringContext) extends AnyVal {
   def java(args: Any*): java = sc.s(args *).asInstanceOf[java]
 
   def kotlin(args: Any*): kotlin = sc.s(args *).asInstanceOf[kotlin]
+
   def sql(args: Any*): sql = sc.s(args *).asInstanceOf[sql]
+
   def bash(args: Any*): bash = sc.s(args *).asInstanceOf[bash]
+
+
+  def html(args: Any*): String = "\n" + sc.s(args *) + "\n"
 }

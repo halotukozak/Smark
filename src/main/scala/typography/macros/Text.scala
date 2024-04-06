@@ -5,9 +5,9 @@ import typography.*
 
 import _root_.scala.quoted.{Expr, Quotes, Type}
 
-inline def text[Styles <: TextStyle](inline inner: String): String = ${ textImpl[Styles]('{ inner }) }
-private def textImpl[Styles <: TextStyle : Type](inner: Expr[String])(using Quotes): Expr[String] = {
-  Type.of[Styles] match {
+inline def text[Style <: TextStyle](inline inner: String): String = ${ textImpl[Style]('{ inner }) }
+private def textImpl[Style <: TextStyle : Type](inner: Expr[String])(using Quotes): Expr[String] = {
+  Type.of[Style] match {
     case '[Normal] => inner
     case '[Bold & Italic] => '{ "***" + $inner + "***" }
     case '[Bold] => '{ "**" + $inner + "**" }

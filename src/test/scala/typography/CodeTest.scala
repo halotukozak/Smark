@@ -77,6 +77,12 @@ final class CodeTest extends AnyWordSpec with Matchers {
             |echo "HelloWorld"
             |```""".stripMargin
       }
+      "html" in {
+        html"""<h1>HelloWorld</h1>""" shouldBe
+          """
+            |<h1>HelloWorld</h1>
+            |""".stripMargin
+      }
       "Custom" in {
         codeUnsafe(
           "custom",
