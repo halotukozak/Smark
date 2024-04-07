@@ -1,7 +1,7 @@
 package halotukozak.smark
 package typography
 
-import typography.macros.text
+import typography.macros.{codeUnsafe, text}
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -9,7 +9,7 @@ import org.scalatest.wordspec.AnyWordSpec
 final class CodeTest extends AnyWordSpec with Matchers {
   "code text" should {
     "be evaluated correctly" when {
-      "no specified" in {
+      "not specified" in {
         text[Code]("HelloWorld") shouldBe "`HelloWorld`"
         text[Code] {
           """
@@ -43,53 +43,53 @@ final class CodeTest extends AnyWordSpec with Matchers {
 
       "python" in {
         code(python"""print("HelloWorld")""") shouldBe
-          """python```
+          """```python
             |print("HelloWorld")
             |```""".stripMargin
       }
       "scala" in {
         code(scala"""println("HelloWorld")""") shouldBe
-          """scala```
+          """```scala
             |println("HelloWorld")
             |```""".stripMargin
       }
       "java" in {
         code(java"""System.out.println("HelloWorld")""") shouldBe
-          """java```
+          """```java
             |System.out.println("HelloWorld")
             |```""".stripMargin
       }
       "kotlin" in {
         code(kotlin"""println("HelloWorld")""") shouldBe
-          """kotlin```
+          """```kotlin
             |println("HelloWorld")
             |```""".stripMargin
       }
       "sql" in {
         code(sql"""SELECT * FROM table""") shouldBe
-          """sql```
+          """```sql
             |SELECT * FROM table
             |```""".stripMargin
       }
       "bash" in {
         code(bash"""echo "HelloWorld"""") shouldBe
-          """bash```
+          """```bash
             |echo "HelloWorld"
             |```""".stripMargin
       }
       "html" in {
-        html"""<h1>HelloWorld</h1>""" shouldBe
-          """
+        code(html"""<h1>HelloWorld</h1>""") shouldBe
+          """```html
             |<h1>HelloWorld</h1>
-            |""".stripMargin
+            |```""".stripMargin
       }
-      "Custom" in {
+      "custom" in {
         codeUnsafe(
           "custom",
           """
             |println("HelloWorld")
             |""".stripMargin) shouldBe
-          """custom```
+          """```custom
             |
             |println("HelloWorld")
             |
