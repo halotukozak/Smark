@@ -1,6 +1,7 @@
 package halotukozak.smark
 package integration
 
+import tables.*
 import typography.*
 import typography.macros.*
 
@@ -37,6 +38,20 @@ class IntegrationTest extends AnyWordSpec with Matchers {
         ),
         image["Google"](url = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"),
         link("https://www.google.com", "Google"),
+        table {
+          row {
+            cell {
+              text[Bold]("a")
+            }
+            cell("b")
+          }
+          row {
+            cell {
+              text[Code](scala"val x = 1")
+            }
+            cell("d")
+          }
+        },
       ) shouldEqual
         """hello
           |
@@ -71,7 +86,10 @@ class IntegrationTest extends AnyWordSpec with Matchers {
           |
           |![Google](https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png)
           |
-          |[Google](https://www.google.com)""".stripMargin
+          |[Google](https://www.google.com)
+          |
+          || **a** | b |
+          || `val x = 1` | d |""".stripMargin
     }
   }
 
