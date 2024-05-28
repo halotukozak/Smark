@@ -8,4 +8,3 @@ type Unordered = Asterisk | Plus | Hyphen
 type Ordered
 
 private[typography] type ListStyle = Unordered | Ordered
-

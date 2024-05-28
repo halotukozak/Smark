@@ -1,7 +1,7 @@
 package halotukozak.smark
 package typography
 
-import typography.macros.{codeUnsafe, text}
+import typography.macros.text
 import utils.nameOf
 
 type code <: String
@@ -13,7 +13,7 @@ type sql <: code
 type bash <: code
 type html <: code
 
-inline def code[L <: code](inline code: L): String = codeUnsafe(nameOf[L], code)
+inline def code[L <: code](inline inner: L): String = "```" + nameOf[L] + "\n" + inner + "\n```"
 
 implicit class ScalaHelper(private val sc: StringContext) extends AnyVal {
   def scala(args: Any*): scala = sc.s(args *).asInstanceOf[scala]

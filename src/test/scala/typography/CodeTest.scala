@@ -1,7 +1,7 @@
 package halotukozak.smark
 package typography
 
-import typography.macros.{codeUnsafe, text}
+import typography.macros.text
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -84,11 +84,11 @@ final class CodeTest extends AnyWordSpec with Matchers {
             |```""".stripMargin
       }
       "custom" in {
-        codeUnsafe(
-          "custom",
+        type custom <: code
+        code[custom](
           """
             |println("HelloWorld")
-            |""".stripMargin) shouldBe
+            |""".stripMargin.asInstanceOf[custom]) shouldBe
           """```custom
             |
             |println("HelloWorld")

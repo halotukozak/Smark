@@ -1,6 +1,10 @@
 package halotukozak.smark
 package typography
 
+import utils.nameOf
+
+inline def emoji[E <: Emoji] = s":${nameOf[E]}:"
+
 type Emoji
 
 type grinning <: Emoji

@@ -27,5 +27,3 @@ inline def strikethrough(inner: String): String = text[Strikethrough](inner)
 inline def subscript(inner: String): String = text[Subscript](inner)
 inline def superscript(inner: String): String = text[Superscript](inner)
 inline def quoted(inner: String): String = text[Quote](inner)
-
-
