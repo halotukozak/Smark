@@ -5,7 +5,7 @@ import typography.*
 
 import _root_.scala.quoted.{Expr, Quotes, Type}
 
-inline def list[Style <: ListStyle](inline inner: String*): String = ${ listImpl[Style]('{ inner }) }
+private[smark] inline def listMacro[Style <: ListStyle](inline elements: Seq[String]): String = ${ listImpl[Style]('{ elements }) }
 private def listImpl[Style <: ListStyle : Type](inner: Expr[Seq[String]])(using Quotes): Expr[String] = {
   Type.of[Style] match {
     case '[Ordered] => '{ $inner.zipWithIndex.map((s, i) => s"${i + 1}. $s").mkString("\n") }
@@ -21,7 +21,7 @@ private def listImpl[Style <: ListStyle : Type](inner: Expr[Seq[String]])(using 
   }
 }
 
-inline def taskList(inline points: ((Boolean, String) | String)*): String = ${ taskListImpl('{ points }) }
+private[smark] inline def taskListMacro(inline points: ((Boolean, String) | String)*): String = ${ taskListImpl('{ points }) }
 private def taskListImpl(points: Expr[Seq[(Boolean, String) | String]])(using Quotes): Expr[String] = {
   '{ $points.map {
     case (true, s) => s"- [x] $s"

@@ -1,8 +1,9 @@
 package halotukozak.smark
 package typography
 
-import typography.macros.text
 import utils.nameOf
+
+inline def codeMacro[L <: code](inline inner: L): String = "```" + nameOf[L] + "\n" + inner + "\n```"
 
 type code <: String
 type scala <: code
@@ -12,8 +13,6 @@ type kotlin <: code
 type sql <: code
 type bash <: code
 type html <: code
-
-inline def code[L <: code](inline inner: L): String = "```" + nameOf[L] + "\n" + inner + "\n```"
 
 implicit class ScalaHelper(private val sc: StringContext) extends AnyVal {
   def scala(args: Any*): scala = sc.s(args *).asInstanceOf[scala]

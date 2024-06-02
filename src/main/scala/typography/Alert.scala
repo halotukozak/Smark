@@ -1,9 +1,9 @@
 package halotukozak.smark
 package typography
 
-type Alert
-type Note <: Alert
-type Tip <: Alert
-type Important <: Alert
-type Warning <: Alert
-type Caution <: Alert
+type Alert = Note | Tip | Important | Warning | Caution
+type Note = "Note"
+type Tip = "Tip"
+type Important = "Important"
+type Warning = "Warning"
+type Caution = "Caution"

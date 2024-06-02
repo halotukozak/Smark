@@ -3,7 +3,7 @@ package typography
 
 import utils.nameOf
 
-inline def emoji[E <: Emoji] = s":${nameOf[E]}:"
+inline def emojiMacro[E <: Emoji]: String = s":${nameOf[E]}:"
 
 type Emoji
 

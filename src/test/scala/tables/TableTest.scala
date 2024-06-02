@@ -1,59 +1,69 @@
 package halotukozak.smark
 package tables
 
-import typography.macros.text
-import typography.{Bold, Code, ScalaHelper}
+import tables.*
+import typography.macros.*
+import typography.*
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-
-final class TableTest extends AnyWordSpec with Matchers {
+final class TableTest extends AnyWordSpec with Matchers:
 
   "table" should {
     "be evaluated" in {
-      table {
-        row {}
+      markdown {
+        table {
+          row {}
+        }
       } shouldBe "|  |"
 
-      table {
-        row {
-          cell("a")
-          cell("b")
+      markdown {
+        table {
+          row {
+            cell("a")
+            cell("b")
+          }
         }
       } shouldBe "| a | b |"
 
-      table {
-        row {
-          cell {
-            text[Bold]("a")
+      markdown {
+        table {
+          row {
+            cell {
+              textMacro[Bold]("a")
+            }
+            cell("b")
           }
-          cell("b")
-        }
-        row {
-          cell {
-            text[Code](scala"val x = 1")
+          row {
+            cell {
+              textMacro[Code](scala"val x = 1")
+            }
+            cell("d")
           }
-          cell("d")
         }
       } shouldBe "| **a** | b |\n| `val x = 1` | d |"
 
-      table {
-        header("a": Left, "b")
-        row {
-          cell("1")
-          cell("2")
+      markdown {
+        table {
+          header("a": Left, "b")
+          row {
+            cell("1")
+            cell("2")
+          }
         }
       } shouldBe "| a | b |\n| :--- | --- |\n| 1 | 2 |"
 
-      table {
-        header("a": Right, "b": Center)
-        row {
-          cell("1")
-          cell("2")
+      markdown {
+        table {
+          header("a": Right, "b": Center)
+          row {
+            cell("1")
+            cell("2")
+          }
         }
       } shouldBe "| a | b |\n| ---: | :---: |\n| 1 | 2 |"
     }
   }
 
-}
+end TableTest

@@ -1,10 +1,13 @@
 package halotukozak.smark
 package typography
 
-import typography.macros.quote
+import typography.*
+import typography.macros.textMacro
 
-inline def note(inline inner: String*): String = quote[Note](inner *)
-inline def tip(inline inner: String*): String = quote[Tip](inner *)
-inline def important(inline inner: String*): String = quote[Important](inner *)
-inline def warning(inline inner: String*): String = quote[Warning](inner *)
-inline def caution(inline inner: String*): String = quote[Caution](inner *)
+private[smark] final class Quote[AlertType <: Alert : ValueOf] extends MdElement:
+  override private[smark] def eval: String =
+    (s"[!${valueOf[AlertType]}]" +: inner)
+      .map(e => textMacro[Quoted](e.eval))
+      .mkString("\n")
+
+end Quote

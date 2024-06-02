@@ -5,6 +5,6 @@ import scala.quoted.{Expr, Quotes, Type}
 
 inline def nameOf[T]: String = ${ nameOfImpl[T] }
 
-def nameOfImpl[T](using Type[T], Quotes): Expr[String] = Expr {
+def nameOfImpl[T: Type](using Quotes): Expr[String] = Expr {
   """halotukozak\.smark\.typography\.[A-Za-z]+\$package\.""".r.replaceAllIn(Type.show[T], "")
 }

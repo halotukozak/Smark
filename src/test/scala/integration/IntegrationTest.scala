@@ -8,51 +8,52 @@ import typography.macros.*
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class IntegrationTest extends AnyWordSpec with Matchers {
+final class IntegrationTest extends AnyWordSpec with Matchers:
 
   "Integration" should {
     "work" in {
-      markdown(
-        text[Normal]("hello"),
-        text[Bold]("boldedHello"),
-        text[Normal](text[Italic]("world")),
-        heading[1]("heading1"),
-        heading[2](bold("heading2")),
+      markdown {
+        text[Normal]("hello")
+        text[Bold]("boldedHello")
+        text[Normal](string.text[Italic]("world"))
+        heading[1]("heading1")
+        heading[2](string.text[Bold]("heading2"))
         code {
           scala"""val x = 1"""
-        },
-        emoji[joy],
-        quote[Caution]("read this!"),
-        paragraph(
-          text[Bold & Italic]("boldedHello"),
-          heading[4](bold("heading4")),
+        }
+        emoji[joy]
+        quote[Caution]("read this!")
+        paragraph {
+          text[Bold & Italic]("boldedHello")
+          heading[4](string.text[Bold]("heading4"))
           list[Ordered](
             "item1",
             "item2",
           )
-        ),
+        }
         taskList(
           true -> "task1",
           false -> "task2",
           "task3"
-        ),
-        image["Google"](url = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"),
-        link("https://www.google.com", "Google"),
+        )
+        image["Google"](url = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")
+        link["Google"](url = "https://www.google.com")
         table {
           row {
             cell {
               text[Bold]("a")
+              text[Italic]("ba")
             }
             cell("b")
           }
           row {
             cell {
-              text[Code](scala"val x = 1")
+              //              string.text[Code](scala"val x = 1")
             }
             cell("d")
           }
-        },
-      ) shouldEqual
+        }
+      } shouldEqual
         """hello
           |
           |**boldedHello**
@@ -88,9 +89,8 @@ class IntegrationTest extends AnyWordSpec with Matchers {
           |
           |[Google](https://www.google.com)
           |
-          || **a** | b |
+          || **a***ba* | b |
           || `val x = 1` | d |""".stripMargin
     }
   }
-
-}
+end IntegrationTest
