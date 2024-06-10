@@ -2,7 +2,6 @@ package halotukozak.smark
 package typography
 
 
-import tables.*
 import typography.*
 import typography.macros.*
 

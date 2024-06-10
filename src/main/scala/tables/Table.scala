@@ -3,25 +3,22 @@ package tables
 
 
 import tables.Column.symbol
-import utils.HasInner
-
-import scala.collection.mutable.ListBuffer
+import utils.{HasInner, MdElement}
 
 
 private[smark] final class Table extends HasInner[Row | Header]:
   extension (ab: Iterable[String])
     private def mkRow = ab.mkString("| ", " | ", " |")
 
-  private[smark] def eval: String = inner.map {
-    case r: Row => r.inner.map(_.eval).mkRow
-    case h: Header => h.inner.map(_.name).mkRow + "\n" + h.inner.map(symbol).mkRow
+  private[smark] def eval: String = elements.map {
+    case r: Row => r.elements.map(_.eval).mkRow
+    case h: Header => h.elements.map(_.name).mkRow + "\n" + h.elements.map(symbol).mkRow
   }.mkString("\n")
 
 
 private[smark] class Row extends HasInner[Cell]
 
-private[smark] class Header(elements: Seq[Column]) extends HasInner[Column](ListBuffer.from(elements))
-
+private[smark] class Header(elements: Seq[Column]) extends HasInner[Column](elements)
 
 private[smark] sealed abstract class Column(val name: String)
 
@@ -53,5 +50,5 @@ given Conversion[String, Center] = Column.Center(_)
 given Conversion[String, None] = Column.None(_)
 
 private[smark] final class Cell extends MdElement:
-  override private[smark] def eval: String = inner.mkString("\n")
+  override def eval: String = evaluated.mkString("\n")
 end Cell

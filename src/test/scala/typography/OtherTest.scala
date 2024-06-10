@@ -1,9 +1,8 @@
 package halotukozak.smark
 package typography
 
-import tables.*
-import typography.*
 import typography.macros.*
+import utils.MdElement
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -45,7 +44,7 @@ final class OtherTest extends AnyWordSpec with Matchers:
           |hello
           |**boldedHello**
           |*world*
-          |-->""".stripMargin
+          | -->""".stripMargin
     }
   }
 

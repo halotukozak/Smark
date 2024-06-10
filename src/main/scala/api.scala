@@ -3,11 +3,7 @@ package halotukozak.smark
 import tables.*
 import typography.*
 import typography.macros.*
-
-
-private inline def initAndAdd[T <: MdElement](inline q: T)(inline init: T ?=> MdUnit)(using m: MdElement): MdUnit =
-  init(using q)
-  m.add(q)
+import utils.MdElement
 
 def markdown(init: MdElement ?=> MdUnit): String =
   given m: MdElement = new Markdown
@@ -15,29 +11,28 @@ def markdown(init: MdElement ?=> MdUnit): String =
   init(using m)
   m.eval
 
-inline def text[Style <: TextStyle](inline inner: String)(using m: MdElement): MdUnit = m.add(textMacro[Style](inner))
+inline def text[Style <: TextStyle](inner: String)(using m: MdElement): MdUnit = m.add(textMacro[Style](inner))
 
 inline def emoji[E <: Emoji](using m: MdElement): MdUnit = m.add(emojiMacro[E])
 
-inline def quote[AlertType <: Alert : ValueOf](inline init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Quote[AlertType])(init)
+def quote[AlertType <: Alert : ValueOf](init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Quote[AlertType])(init)
 
-inline def heading[N <: HeadingLevel : ValueOf](inline init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Heading[N])(init)
+def heading[N <: HeadingLevel : ValueOf](init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Heading[N])(init)
 
-inline def code[L <: code](inline inner: L)(using m: MdElement): MdUnit = m.add(codeMacro[L](inner))
+inline def code[L <: code](inner: L)(using m: MdElement): MdUnit = m.add(codeMacro[L](inner))
 
-inline def list[Style <: ListStyle](inline elements: String*)(using m: MdElement): MdUnit = m.add(listMacro[Style](elements))
+inline def list[Style <: ListStyle](elements: String*)(using m: MdElement): MdUnit = m.add(listMacro[Style](elements))
 
-inline def taskList(inline points: ((Boolean, String) | String)*)(using m: MdElement): MdUnit = m.add(taskListMacro(points *))
+def taskList(points: ((Boolean, String) | String)*)(using m: MdElement): MdUnit = m.add(taskListMacro(points *))
 
 inline def hr(using m: MdElement): MdUnit = m.add("***")
 
-inline def paragraph(inline init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Paragraph)(init)
+def paragraph(init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Paragraph)(init)
+def comment(init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Comment)(init)
 
-inline def comment(inline init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Comment)(init)
+inline def link[Title <: String](url: String)(using m: MdElement): MdUnit = m.add(linkMacro[Title](url))
 
-inline def link[Title <: String](inline url: String)(using m: MdElement): MdUnit = m.add(linkMacro[Title](url))
-
-inline def image[title <: String](inline url: String)(using m: MdElement): MdUnit = m.add(imageMacro[title](url))
+inline def image[title <: String](url: String)(using m: MdElement): MdUnit = m.add(imageMacro[title](url))
 
 def table(init: Table ?=> MdUnit)(using m: MdElement): MdUnit =
   given t: Table = new Table
@@ -67,6 +62,9 @@ def cell(init: MdElement ?=> MdUnit)(using r: Row): MdUnit =
     c
   }
 
+private def initAndAdd[T <: MdElement](q: T)(init: T ?=> MdUnit)(using m: MdElement): MdUnit =
+  init(using q)
+  m.add(q)
 
 package string:
   inline def text[Style <: TextStyle](inline inner: String): String = textMacro[Style](inner)
@@ -81,5 +79,4 @@ end string
 
 import _root_.scala.language.implicitConversions
 
-given Conversion[Unit, MdUnit] with
-  def apply(u: Unit): MdUnit = ().asInstanceOf
+given (using m: MdElement): Conversion[String, MdUnit] = m.add(_)

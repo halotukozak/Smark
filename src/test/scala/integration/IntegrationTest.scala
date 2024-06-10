@@ -2,8 +2,8 @@ package halotukozak.smark
 package integration
 
 import tables.*
-import typography.*
 import typography.macros.*
+import typography.{CodeHelper, *}
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -41,14 +41,13 @@ final class IntegrationTest extends AnyWordSpec with Matchers:
         table {
           row {
             cell {
-              text[Bold]("a")
-              text[Italic]("ba")
+              string.text[Bold]("a") + string.text[Italic]("ba")
             }
             cell("b")
           }
           row {
             cell {
-              //              string.text[Code](scala"val x = 1")
+              string.text[Code](scala"val x = 1")
             }
             cell("d")
           }

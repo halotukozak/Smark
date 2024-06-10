@@ -1,8 +1,7 @@
 package halotukozak.smark
 package typography
 
+import utils.MdElement
+
 final class Paragraph extends MdElement:
-
-  override private[smark] def eval: String = paragraphMacro(inner.map(e => e.eval).mkString("\n\n"))
-
-private[smark] inline def paragraphMacro(inline inner: String): String = "\n" + inner
+  override def eval: String = "\n" + evaluated.mkString("\n\n")

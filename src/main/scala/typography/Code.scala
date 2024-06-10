@@ -14,7 +14,7 @@ type sql <: code
 type bash <: code
 type html <: code
 
-implicit class ScalaHelper(private val sc: StringContext) extends AnyVal {
+implicit class CodeHelper(private val sc: StringContext) extends AnyVal {
   def scala(args: Any*): scala = sc.s(args *).asInstanceOf[scala]
 
   def python(args: Any*): python = sc.s(args *).asInstanceOf[python]

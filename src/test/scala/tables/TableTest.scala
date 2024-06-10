@@ -2,8 +2,8 @@ package halotukozak.smark
 package tables
 
 import tables.*
-import typography.macros.*
 import typography.*
+import typography.macros.*
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -14,7 +14,11 @@ final class TableTest extends AnyWordSpec with Matchers:
     "be evaluated" in {
       markdown {
         table {
-          row {}
+          row{
+            cell{
+              ""
+            }
+          }
         }
       } shouldBe "|  |"
 
@@ -31,13 +35,13 @@ final class TableTest extends AnyWordSpec with Matchers:
         table {
           row {
             cell {
-              textMacro[Bold]("a")
+              text[Bold]("a")
             }
             cell("b")
           }
           row {
             cell {
-              textMacro[Code](scala"val x = 1")
+              text[Code](scala"val x = 1")
             }
             cell("d")
           }

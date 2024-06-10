@@ -3,11 +3,12 @@ package typography
 
 import typography.*
 import typography.macros.textMacro
+import utils.MdElement
 
 private[smark] final class Quote[AlertType <: Alert : ValueOf] extends MdElement:
-  override private[smark] def eval: String =
-    (s"[!${valueOf[AlertType]}]" +: inner)
-      .map(e => textMacro[Quoted](e.eval))
+  override def eval: String =
+    (s"[!${valueOf[AlertType]}]" +: evaluated)
+      .map(textMacro[Quoted])
       .mkString("\n")
 
 end Quote
