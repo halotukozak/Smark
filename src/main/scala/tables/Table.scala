@@ -7,12 +7,12 @@ import utils.{HasInner, MdElement}
 
 
 private[smark] final class Table extends HasInner[Row | Header]:
-  extension (ab: Iterable[String])
-    private def mkRow = ab.mkString("| ", " | ", " |")
+  extension (it: Iterator[String])
+    private def mkRow = it.mkString("| ", " | ", " |")
 
-  private[smark] def eval: String = elements.map {
-    case r: Row => r.elements.map(_.eval).mkRow
-    case h: Header => h.elements.map(_.name).mkRow + "\n" + h.elements.map(symbol).mkRow
+  override def toString: String = iterator.map {
+    case r: Row => r.iterator.map(_.toString).mkRow
+    case h: Header => h.iterator.map(_.name).mkRow + "\n" + h.iterator.map(symbol).mkRow
   }.mkString("\n")
 
 
@@ -50,5 +50,5 @@ given Conversion[String, Center] = Column.Center(_)
 given Conversion[String, None] = Column.None(_)
 
 private[smark] final class Cell extends MdElement:
-  override def eval: String = evaluated.mkString("\n")
+  override def toString: String = evaluated.mkString("\n")
 end Cell

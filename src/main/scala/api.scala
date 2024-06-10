@@ -9,7 +9,7 @@ def markdown(init: MdElement ?=> MdUnit): String =
   given m: MdElement = new Markdown
 
   init(using m)
-  m.eval
+  m.toString
 
 inline def text[Style <: TextStyle](inner: String)(using m: MdElement): MdUnit = m.add(textMacro[Style](inner))
 

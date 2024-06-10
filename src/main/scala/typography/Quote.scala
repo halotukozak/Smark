@@ -6,7 +6,7 @@ import typography.macros.textMacro
 import utils.MdElement
 
 private[smark] final class Quote[AlertType <: Alert : ValueOf] extends MdElement:
-  override def eval: String =
+  override def toString: String =
     (s"[!${valueOf[AlertType]}]" +: evaluated)
       .map(textMacro[Quoted])
       .mkString("\n")
