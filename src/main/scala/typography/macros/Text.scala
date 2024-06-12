@@ -19,7 +19,7 @@ def textImpl[Style <: TextStyle : Type](inner: Expr[String])(using Quotes): Expr
     case '[BlockCode] => '{ "```\n" + $inner + "\n```" }
     case '[Code] => '{
       if ($inner.split("\n").length == 1) "`" + $inner + "`"
-      else "```\n" + $inner + "\n```"
+      else "```" + $inner + "```"
     }
     case '[Quoted] => '{ "> " + $inner }
   }

@@ -23,10 +23,8 @@ final class CodeTest extends AnyWordSpec with Matchers:
             |""".stripMargin
         } shouldBe {
           """```
-            |
             |var a = 1
             |var b = 2
-            |
             |```""".stripMargin
         }
 
@@ -38,10 +36,8 @@ final class CodeTest extends AnyWordSpec with Matchers:
             |""".stripMargin
         } shouldBe {
           """```
-            |
             |var a = 1
             |var b = 2
-            |
             |```""".stripMargin
         }
       }
@@ -121,9 +117,9 @@ final class CodeTest extends AnyWordSpec with Matchers:
         type custom <: code
         markdown {
           code[custom](
-            """
-              |println("HelloWorld")
-              |""".stripMargin.asInstanceOf[custom])
+            """|
+               |println("HelloWorld")
+               |""".stripMargin.asInstanceOf[custom])
         } shouldBe
           """```custom
             |
