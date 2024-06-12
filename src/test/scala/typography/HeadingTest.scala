@@ -17,32 +17,32 @@ final class HeadingTest extends AnyWordSpec with Matchers:
           heading[1] {
             "Hello"
           }
-        } shouldBe "#Hello"
+        } shouldBe "# Hello"
       }
       "level 2" in {
         markdown {
           heading[2]("Hello")
-        } shouldBe "##Hello"
+        } shouldBe "## Hello"
       }
       "level 3" in {
         markdown {
           heading[3]("Hello")
-        } shouldBe "###Hello"
+        } shouldBe "### Hello"
       }
       "level 4" in {
         markdown {
           heading[4]("Hello")
-        } shouldBe "####Hello"
+        } shouldBe "#### Hello"
       }
       "level 5" in {
         markdown {
           heading[5]("Hello")
-        } shouldBe "#####Hello"
+        } shouldBe "##### Hello"
       }
       "level 6" in {
         markdown {
           heading[6]("Hello")
-        } shouldBe "######Hello"
+        } shouldBe "###### Hello"
       }
       "multiline" in {
         markdown {
@@ -50,7 +50,7 @@ final class HeadingTest extends AnyWordSpec with Matchers:
             text[Normal]("Hello")
             text[Bold]("World")
           }
-        } shouldBe "#Hello\n#**World**"
+        } shouldBe "# Hello\n# **World**"
       }
     }
 

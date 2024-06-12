@@ -2,8 +2,8 @@ package halotukozak.smark
 package integration
 
 import tables.*
+import typography.*
 import typography.macros.*
-import typography.{CodeHelper, *}
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -59,9 +59,9 @@ final class IntegrationTest extends AnyWordSpec with Matchers:
           |
           |*world*
           |
-          |#heading1
+          |# heading1
           |
-          |##**heading2**
+          |## **heading2**
           |
           |```scala
           |val x = 1
@@ -75,7 +75,7 @@ final class IntegrationTest extends AnyWordSpec with Matchers:
           |
           |***boldedHello***
           |
-          |####**heading4**
+          |#### **heading4**
           |
           |1. item1
           |2. item2
