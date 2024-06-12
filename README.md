@@ -13,7 +13,7 @@ Do not take this project seriously, first of all I wanted to learn some mechanis
 Add the following to your build.sbt:
 
 ```scala
-libraryDependencies += "halotukozak" %% "smark" % "0.1.0-SNAPSHOT"
+libraryDependencies += "halotukozak" %% "smark" % "0.2.0"
 ```
 
 Then you can use Smark in your Scala 3 project:
