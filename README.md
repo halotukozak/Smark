@@ -5,8 +5,6 @@
 
 Smark is a markdown generation library in typesafe way
 
-dupa
-
 Do not take this project seriously, first of all I wanted to learn some mechanisms from Scala 3
 
 ## Usage
@@ -32,7 +30,7 @@ heading[1]("Smark")
 }
 ```
 
-will generate:
+generates:
 
 ```
 # Smark
@@ -69,22 +67,125 @@ def table(init: Table ?=> MdUnit)(using m: MdElement): MdUnit
 takes a parameter which operates on the Table instance what enables a syntax like this:
 
 ```scala
-
-               |table {
-               |  header("column1", "column2")
-               |  row {
-               |    cell("row1column1")
-               |    cell("row1column2")
-               |  }
-               |  row {
-               |    cell("row2column1")
-               |    cell("row2column2")
-               |  }
-               |}
-               |
+table {
+  header("column1", "column2")
+  row {
+    cell("row1column1")
+    cell("row1column2")
+  }
+  row {
+    cell("row2column1")
+    cell("row2column2")
+  }
+}
 ```
 
 ### Implicit Conversions
 
 
-[Implicit conversions](https://docs.scala-lang.org/scala3/book/ca-implicit-conversions.html)
+[Implicit conversions](https://docs.scala-lang.org/scala3/book/ca-implicit-conversions.html) are used in two places:
+
+* Converting String to MdUnit
+* Converting String to Column
+
+#### Converting String to MdUnit
+
+
+Implicit conversion is defined in the companion object of MdElement:
+
+```scala
+given Conversion[String, MdUnit] = MdElement.fromString
+```
+
+This allows to use String in the context of MdUnit. For example:
+
+```scala
+paragraph {
+  "This is a paragraph"
+}
+```
+
+also allows to use raw String in place of `text[Normal]
+
+```scala
+//noinspection ScalaUnusedExpression
+paragraph {
+  "Conversion to MdUnit" : MdUnit
+  "Last expression do not have to be converted"
+}
+```
+
+as you can see, the `//noinspection ScalaUnusedExpression` is needed to suppress the warning about unused expression for IntelliJ IDEA
+
+#### Converting String to Column
+
+
+Implicit conversion enables syntax like this:
+
+```scala
+table{ header("column1", "column2" : Left) }
+```
+
+what make the second column left aligned
+
+```
+| column1 | column2 |
+| --- | :--- |
+```
+
+### Union Types & Singleton Types
+
+
+[Union types](https://docs.scala-lang.org/scala3/book/types-union.html) are used with [Singleton types](https://docs.scala-lang.org/sips/42.type.html#:~:text=A%20singleton%20type%20is%20of,for%20which%20v%20eq%20p%20) to define the heading levels
+
+```scala
+type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
+```
+
+what makes this code not compilable
+
+```scala
+heading[7]("This will not compile")
+```
+
+### Opaque Type Aliases
+
+
+[Opaque type alias](https://docs.scala-lang.org/scala3/reference/other-new-features/opaques.html) is used to differ Unit from MdUnit in order to provide safe implicit conversion from String.
+
+### String interpolation
+
+
+[String interpolation](https://www.scala-lang.org/api/current/scala/StringContext.html) is used to create code blocks in markdown. It also enables IDE support. For example:
+
+```scala
+code(scala"val x = 1")
+```
+
+generates:
+
+````
+```scala
+val x = 1
+```
+````
+
+### Macros
+
+
+[Macros](https://docs.scala-lang.org/scala3/guides/macros/macros.html) are used to generate markdown from the code. Mostly used inline ones but also type pattern matching, quotation and splicing. For example:
+
+```scala
+inline def textMacro[Style <: TextStyle](inline inner: String): String = ${textImpl[Style]('{ inner })}
+def textImpl[Style <: TextStyle : Type](inner: Expr[String])(using Quotes): Expr[String] = {
+  Type.of[Style] match {
+    case '[Normal] => inner
+    case '[Bold & Italic] => '{ "***" + $inner + "***" }
+    case '[Bold] => '{ "**" + $inner + "**" }
+    case '[Italic] => '{ "*" + $inner + "*" }
+    (...)
+  }
+}
+```
+
+is used to generate text with different styles during compilation.
