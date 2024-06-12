@@ -1,10 +1,6 @@
 package halotukozak.smark
 package typography
 
-import utils.nameOf
-
-inline def codeMacro[L <: code](inline inner: L): String = "```" + nameOf[L] + "\n" + inner + "\n```"
-
 type code <: String
 type scala <: code
 type python <: code

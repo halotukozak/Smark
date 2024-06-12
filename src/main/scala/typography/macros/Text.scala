@@ -16,10 +16,10 @@ def textImpl[Style <: TextStyle : Type](inner: Expr[String])(using Quotes): Expr
     case '[Subscript] => '{ "<sub>" + $inner + "</sub>" }
     case '[Superscript] => '{ "<sup>" + $inner + "</sup>" }
     case '[InlineCode] => '{ "`" + $inner + "`" }
-    case '[BlockCode] => '{ "```\n" + $inner + "\n```" }
+    case '[BlockCode] => '{ "```\n" + $inner.stripLeading.stripLineEnd + "\n```" }
     case '[Code] => '{
       if ($inner.split("\n").length == 1) "`" + $inner + "`"
-      else "```" + $inner + "```"
+      else "```\n" + $inner.stripLeading.stripLineEnd + "\n```"
     }
     case '[Quoted] => '{ "> " + $inner }
   }

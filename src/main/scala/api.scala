@@ -3,7 +3,7 @@ package halotukozak.smark
 import tables.*
 import typography.*
 import typography.macros.*
-import utils.MdElement
+import utils.{MdElement, nameOf}
 
 def markdown(init: MdElement ?=> MdUnit): String =
   given m: MdElement = new Markdown
@@ -19,7 +19,11 @@ def quote[AlertType <: Alert : ValueOf](init: MdElement ?=> MdUnit)(using m: MdE
 
 def heading[N <: HeadingLevel : ValueOf](init: MdElement ?=> MdUnit)(using m: MdElement): MdUnit = initAndAdd(new typography.Heading[N])(init)
 
-inline def code[L <: code](inner: L)(using m: MdElement): MdUnit = m.add(codeMacro[L](inner))
+inline def code[L <: code](inner: L)(using m: MdElement): MdUnit = m.add {
+  s"""```${nameOf[L]}
+     |${inner.stripLeading.stripLineEnd}
+     |```""".stripMargin
+}
 
 inline def list[Style <: ListStyle](elements: String*)(using m: MdElement): MdUnit = m.add(listMacro[Style](elements))
 

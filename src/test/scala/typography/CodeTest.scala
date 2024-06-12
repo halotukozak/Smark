@@ -3,8 +3,7 @@ package typography
 
 import typography.macros.*
 
-/** due to the conflicts with [[org.scalatest.Assertions]] */
-
+/* due to the conflicts with [[org.scalatest.Assertions]] */
 import typography.stripMargin as stripCode
 
 import org.scalatest.matchers.should.Matchers
@@ -108,9 +107,7 @@ final class CodeTest extends AnyWordSpec with Matchers:
           }
         } shouldBe
           """```scala
-            |
             |println("HelloWorld")
-            |
             |```""".stripMargin
       }
       "custom" in {
@@ -121,11 +118,9 @@ final class CodeTest extends AnyWordSpec with Matchers:
                |println("HelloWorld")
                |""".stripMargin.asInstanceOf[custom])
         } shouldBe
-          """```custom
-            |
-            |println("HelloWorld")
-            |
-            |```""".stripMargin
+          """|```custom
+             |println("HelloWorld")
+             |```""".stripMargin
       }
     }
   }
