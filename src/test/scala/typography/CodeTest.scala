@@ -1,9 +1,11 @@
 package halotukozak.smark
 package typography
 
-import tables.*
-import typography.*
 import typography.macros.*
+
+/** due to the conflicts with [[org.scalatest.Assertions]] */
+
+import typography.stripMargin as stripCode
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -62,6 +64,7 @@ final class CodeTest extends AnyWordSpec with Matchers:
       }
       "java" in {
         markdown {
+          //
           code(java"""System.out.println("HelloWorld");""")
         } shouldBe
           """```java
@@ -98,6 +101,20 @@ final class CodeTest extends AnyWordSpec with Matchers:
         } shouldBe
           """```html
             |<h1>HelloWorld</h1>
+            |```""".stripMargin
+      }
+      "margin stripped" in {
+        markdown {
+          code {
+            scala"""
+                   |println("HelloWorld")
+                   |""".stripCode
+          }
+        } shouldBe
+          """```scala
+            |
+            |println("HelloWorld")
+            |
             |```""".stripMargin
       }
       "custom" in {

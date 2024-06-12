@@ -14,6 +14,10 @@ type sql <: code
 type bash <: code
 type html <: code
 
+extension [L <: code](code: L)
+  def stripMargin: L = code.stripMargin('|')
+  def stripMargin(marginChar: Char): L = code.asInstanceOf[String].stripMargin(marginChar).asInstanceOf[L]
+
 implicit class CodeHelper(private val sc: StringContext) extends AnyVal {
   def scala(args: Any*): scala = sc.s(args *).asInstanceOf[scala]
 
