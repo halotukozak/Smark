@@ -190,6 +190,11 @@ val content: String = markdown {
     }
     "is used to generate text with different styles during compilation.": MdUnit
   }
+  heading[2]("More examples")
+  list[Plus](
+    string.link["IntegrationTest.scala"]("https://github.com/halotukozak/Smark/blob/master/src/test/scala/integration/IntegrationTest.scala"),
+    string.link["Readme.scala"]("https://github.com/halotukozak/Smark/blob/master/src/test/scala/integration/Readme.scala"),
+  )
 
 }
 

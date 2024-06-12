@@ -189,3 +189,8 @@ def textImpl[Style <: TextStyle : Type](inner: Expr[String])(using Quotes): Expr
 ```
 
 is used to generate text with different styles during compilation.
+
+## More examples
+
++ [IntegrationTest.scala](https://github.com/halotukozak/Smark/blob/master/src/test/scala/integration/IntegrationTest.scala)
++ [Readme.scala](https://github.com/halotukozak/Smark/blob/master/src/test/scala/integration/Readme.scala)
