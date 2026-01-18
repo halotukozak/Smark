@@ -5,7 +5,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "Smark",
     idePackagePrefix := Some("halotukozak.smark"),
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % Test,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test,
 
     githubOwner := "halotukozak",
     githubRepository := "Smark",
